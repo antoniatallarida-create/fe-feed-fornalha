@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fé, Feed e Fornalha</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Instrument+Sans:wght@400;600&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: palco de worship night — hero com "luz de palco", seções em faixas, infográficos em tokens */
+:root{
+  --bg:#F5F3FA; --surface:#FFFFFF; --fg:#1C1631; --muted:#5E5878; --line:#DDD8EA;
+  --ember:#E0570B; --violet:#5B3FD1; --soft:#ECE7FA;
+  --gA:#1E8E5A; --gB:#2F6FD6; --gC:#8A6D12; --gD:#B23A6B;
+  --display:"Bricolage Grotesque",ui-sans-serif,system-ui,sans-serif;
+  --body:"Instrument Sans",system-ui,-apple-system,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#110D1F; --surface:#1B1630; --fg:#F1EDFB; --muted:#A79FC4; --line:#2E2748;
+  --ember:#FF7A33; --violet:#9C86FF; --soft:#231C3D;
+  --gA:#4CC98C; --gB:#6FA2FF; --gC:#E0BE55; --gD:#F07AAA; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#110D1F; --surface:#1B1630; --fg:#F1EDFB; --muted:#A79FC4; --line:#2E2748;
+  --ember:#FF7A33; --violet:#9C86FF; --soft:#231C3D;
+  --gA:#4CC98C; --gB:#6FA2FF; --gC:#E0BE55; --gD:#F07AAA; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font:16px/1.6 var(--body);padding-inline:16px}
+.wrap{max-width:1080px;margin:0 auto;padding-block:24px 64px;display:flex;flex-direction:column;gap:72px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.1}
+h2{font-size:clamp(28px,4vw,40px);font-weight:800}
+h3{font-size:20px;font-weight:800}
+p{margin:0;max-width:65ch}
+a{color:var(--violet)}
+a:focus-visible,button:focus-visible{outline:3px solid var(--ember);outline-offset:2px}
+.eyebrow{font:500 12px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ember)}
+.sec{display:flex;flex-direction:column;gap:20px}
+.lede{color:var(--muted);font-size:17px}
+nav{display:flex;flex-wrap:wrap;gap:8px;position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:10px;border-bottom:1px solid var(--line)}
+nav a{font:500 13px var(--mono);text-decoration:none;color:var(--fg);padding:6px 10px;border-radius:99px;border:1px solid var(--line)}
+nav a:hover{border-color:var(--ember);color:var(--ember)}
+/* hero */
+.hero{position:relative;overflow:hidden;border-radius:24px;padding:clamp(28px,6vw,64px);background:#150F2A;color:#F6F2FF;display:flex;flex-direction:column;gap:20px}
+.hero::before{content:"";position:absolute;inset:-40% -20% auto auto;width:70%;aspect-ratio:1;background:radial-gradient(circle,rgba(255,122,51,.55),transparent 60%);pointer-events:none}
+.hero::after{content:"";position:absolute;inset:auto auto -50% -15%;width:60%;aspect-ratio:1;background:radial-gradient(circle,rgba(124,92,255,.5),transparent 60%);pointer-events:none}
+.hero>*{position:relative}
+.hero h1{font-size:clamp(40px,8vw,88px);font-weight:800;letter-spacing:-.02em}
+.hero h1 em{font-style:normal;color:#FF8A45}
+.hero p{color:#CFC6EE;font-size:18px}
+.hero .eyebrow{color:#FFB27F}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font:500 12px var(--mono);padding:6px 10px;border-radius:99px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18)}
+/* grades */
+.grades{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.g{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:flex;gap:12px;align-items:flex-start}
+.badge{flex:none;width:34px;height:34px;border-radius:10px;display:grid;place-items:center;font:800 18px var(--display);color:#fff}
+.bA{background:var(--gA)}.bB{background:var(--gB)}.bC{background:var(--gC)}.bD{background:var(--gD)}
+.g strong{display:block}
+.g span{color:var(--muted);font-size:14px}
+.tag{font:500 11px var(--mono);padding:3px 7px;border-radius:6px;color:#fff;white-space:nowrap}
+/* stats */
+.bars{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:clamp(18px,3vw,28px);display:flex;flex-direction:column;gap:14px}
+.bar{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,2fr) 48px;gap:12px;align-items:center}
+.bar .lbl{font-size:14px}
+.track{height:14px;background:var(--soft);border-radius:99px;overflow:hidden}
+.fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--violet),var(--ember))}
+.bar .v{font:500 15px var(--mono);text-align:right;font-variant-numeric:tabular-nums}
+.note{font-size:13px;color:var(--muted)}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
+.big{display:flex;flex-direction:column;gap:4px}
+.big b{font:800 clamp(40px,6vw,56px)/1 var(--display);color:var(--ember)}
+/* findings */
+.finds{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.f{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.f .top{display:flex;justify-content:space-between;gap:8px;align-items:center}
+.f .ico{font-size:24px}
+.f p{font-size:15px;color:var(--muted)}
+.f .read{font-size:14px;color:var(--fg);border-left:3px solid var(--ember);padding-left:10px}
+/* journey */
+.journey{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.step{background:var(--soft);border-radius:12px;padding:10px 14px;font-weight:600;font-size:14px}
+.arrow{color:var(--ember);font-weight:800}
+/* layers */
+.layers{display:flex;flex-direction:column;gap:6px}
+.layer{display:grid;grid-template-columns:minmax(0,180px) minmax(0,1fr) minmax(0,1fr);gap:14px;padding:14px 16px;border-radius:12px;background:var(--surface);border:1px solid var(--line);align-items:center;font-size:14px}
+.layer b{font-family:var(--display);font-size:16px}
+.layer .fn{color:var(--muted)}
+.layer.core{border-color:var(--ember);background:linear-gradient(90deg,color-mix(in srgb,var(--ember) 12%,var(--surface)),var(--surface))}
+.layer.edge{border-style:dashed}
+/* words */
+.cloud{display:flex;flex-wrap:wrap;gap:10px;align-items:baseline;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:24px}
+.w{font-family:var(--display);font-weight:800;line-height:1}
+.w.s1{font-size:44px;color:var(--ember)}.w.s2{font-size:34px;color:var(--violet)}.w.s3{font-size:24px}.w.s4{font-size:18px;color:var(--muted);font-weight:500;text-decoration:line-through;text-decoration-thickness:1px}
+.quote{font:500 clamp(18px,2.4vw,24px)/1.4 var(--display);max-width:42ch;padding:20px 24px;border-radius:16px;background:var(--soft)}
+/* videos */
+.vids{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.vid{display:flex;flex-direction:column;text-decoration:none;color:var(--fg);background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden;transition:transform .2s,border-color .2s}
+.vid:hover{transform:translateY(-3px);border-color:var(--ember)}
+.thumb{aspect-ratio:16/9;max-width:100%;display:grid;place-items:center;position:relative;color:#fff}
+.thumb .play{width:56px;height:56px;border-radius:50%;background:rgba(0,0,0,.35);display:grid;place-items:center;font-size:22px;backdrop-filter:blur(4px)}
+.thumb .kind{position:absolute;left:10px;top:10px;font:500 11px var(--mono);background:rgba(0,0,0,.35);padding:4px 8px;border-radius:6px}
+.t1{background:linear-gradient(135deg,#FF7A33,#B4207A)}.t2{background:linear-gradient(135deg,#5B3FD1,#1C1631)}.t3{background:linear-gradient(135deg,#1E8E5A,#123E5C)}.t4{background:linear-gradient(135deg,#E0BE55,#C2410C)}
+.vid .meta{padding:14px 16px;display:flex;flex-direction:column;gap:4px}
+.vid .meta b{font-family:var(--display);font-size:16px;line-height:1.25}
+.vid .meta span{font-size:13px;color:var(--muted)}
+/* people */
+.people{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.p{display:flex;gap:12px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px;min-width:0}
+.av{flex:none;width:46px;height:46px;border-radius:50%;display:grid;place-items:center;font:800 16px var(--display);color:#fff}
+.p .nm{font-weight:600;font-size:15px;line-height:1.2}
+.p .rl{font-size:12px;color:var(--muted)}
+.p .info{min-width:0;flex:1}
+.p .tag{margin-left:auto}
+.filters{display:flex;flex-wrap:wrap;gap:8px}
+.filters button{font:500 13px var(--body);padding:8px 14px;border-radius:99px;border:1px solid var(--line);background:var(--surface);color:var(--fg);cursor:pointer}
+.filters button[aria-pressed="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+/* gaps */
+.gaps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.gap{padding:14px;border-radius:12px;border:1px dashed var(--line);background:var(--surface)}
+.gap b{display:block;font-family:var(--display)}
+.gap span{font-size:13px;color:var(--muted)}
+details{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 18px}
+details+details{margin-top:8px}
+summary{cursor:pointer;font-weight:600;list-style:none;display:flex;justify-content:space-between;gap:12px}
+summary::after{content:"+";color:var(--ember);font-weight:800}
+details[open] summary::after{content:"–"}
+details p{margin-top:10px;color:var(--muted);font-size:15px}
+.links{display:flex;flex-wrap:wrap;gap:8px}
+.links a{font-size:14px;padding:8px 12px;border-radius:10px;background:var(--soft);text-decoration:none;color:var(--fg)}
+.links a:hover{color:var(--ember)}
+footer{font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:20px}
+@media (max-width:640px){.layer{grid-template-columns:1fr}.bar{grid-template-columns:1fr 48px}.bar .track{grid-column:1/-1;grid-row:2}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+</head><body>
+<div class="wrap">
+<nav aria-label="Seções">
+  <a href="#achados">Achados</a><a href="#numeros">Números</a><a href="#mapa">Mapa</a><a href="#narrativa">Narrativa</a><a href="#assista">Assista</a><a href="#pessoas">Quem é quem</a>
+</nav>
+
+<header class="hero">
+  <span class="eyebrow">Desk research · jovens evangélicos urbanos · 18–29 anos</span>
+  <h1>Fé, feed <em>e fornalha</em></h1>
+  <p>Como igrejas contemporâneas e ministérios universitários constroem cultura e pertencimento para uma geração: louvor, comunidade, propósito, formação, universidade e carreira, num ecossistema que vai do palco ao celular.</p>
+  <div class="chips"><span class="chip">Louvor</span><span class="chip">Comunidade</span><span class="chip">Propósito</span><span class="chip">Universidade</span><span class="chip">Carreira</span><span class="chip">Mídia digital</span></div>
+</header>
+
+<section class="sec" aria-labelledby="grau">
+  <span class="eyebrow">Como ler este estudo</span>
+  <h2 id="grau">Toda afirmação tem um grau de evidência</h2>
+  <p class="lede">Não existe pesquisa representativa (2023–2026) que isole esse público. Então cada achado traz um selo. Alcance não é influência, e religião não foi usada para inferir posição política.</p>
+  <div class="grades">
+    <div class="g"><div class="badge bA">A</div><div><strong>Evidência direta</strong><span>Jovens das redes em foco. Muitas vezes institucional, não survey.</span></div></div>
+    <div class="g"><div class="badge bB">B</div><div><strong>Referências</strong><span>Iniciativas e criadores do mesmo ecossistema, sem prova de consumo.</span></div></div>
+    <div class="g"><div class="badge bC">C</div><div><strong>Contexto</strong><span>Jovens, evangélicos ou população digital do Brasil. Contexto.</span></div></div>
+    <div class="g"><div class="badge bD">D</div><div><strong>Hipóteses</strong><span>Leitura por triangulação. Precisa ser testada.</span></div></div>
+  </div>
+</section>
+
+<section class="sec" id="achados" aria-labelledby="h-ach">
+  <span class="eyebrow">Achados mais fortes</span>
+  <h2 id="h-ach">Nove ideias para entender o ecossistema</h2>
+  <div class="journey" aria-label="Jornada de pertencimento">
+    <span class="step">Conteúdo nas redes</span><span class="arrow">→</span><span class="step">Culto e conferências</span><span class="arrow">→</span><span class="step">Pequeno grupo</span><span class="arrow">→</span><span class="step">WhatsApp</span><span class="arrow">→</span><span class="step">Faculdade e carreira</span>
+  </div>
+  <div class="finds">
+    <article class="f"><div class="top"><span class="ico" aria-hidden="true">🕸️</span><span class="tag bA">A · C</span></div><h3>Ser da igreja é fazer parte de uma rede</h3><p>O vínculo se forma em vários encontros: o culto, os grupos durante a semana, o lanche depois da reunião, as conversas temáticas e os grupos universitários, quase sempre com um grupo de WhatsApp como porta de entrada.</p><p class="read">A comunidade é a base da vida cultural desses jovens, e não um complemento.</p></article>
+    <article class="f"><div class="top"><span class="ico" aria-hidden="true">🔥</span><span class="tag bA">A/B · C</span></div><h3>O louvor é fé, música e encontro ao mesmo tempo</h3><p>Turnês de louvor percorrem o país, conferências jovens ajudam a formar identidade e grandes eventos já lotam estádios, com cerca de 35 mil pessoas, patrocínio e transmissão na TV.</p><p class="read">A música liga o devocional do dia a dia aos grandes momentos coletivos.</p></article>
+    <article class="f"><div class="top"><span class="ico" aria-hidden="true">📱</span><span class="tag bB">B/C · D</span></div><h3>Cada rede social cumpre um papel</h3><p>Instagram e TikTok parecem servir para descobrir conteúdo; o YouTube, para assistir cultos, músicas e conversas mais longas; o WhatsApp, para manter o grupo unido.</p><p class="read">É uma leitura provável, que ainda precisa ser confirmada com os próprios jovens.</p></article>
+    <article class="f"><div class="top"><span class="ico" aria-hidden="true">🎓</span><span class="tag bA">A</span></div><h3>A faculdade também é lugar de fé</h3><p>Há cursos online para universitários cristãos, grupos semanais de estudo e oração no campus e encontros com músicos e pregadores dentro das universidades.</p><p class="read">Na faculdade se misturam fé, amizades, escolha profissional e missão.</p></article>
+    <article class="f"><div class="top"><span class="ico" aria-hidden="true">🧭</span><span class="tag bA">A/B</span></div><h3>Trabalho também é vocação</h3><p>Faculdades ligadas às igrejas, escolas de liderança e comunidades de empreendedores tratam carreira e negócios como parte do chamado de cada um.</p><p class="read">O foco está em propósito e impacto, e não em enriquecimento.</p></article>
+    <article class="f"><div class="top"><span class="ico" aria-hidden="true">🎙️</span><span class="tag bB">B</span></div><h3>Conversas longas que unem fé e vida</h3><p>Podcasts cristãos viraram pequenas editoras, com livros, Bíblias e devocionais. Episódios de meia hora a uma hora falam de propósito, dor, perdão e relações afetivas.</p><p class="read">A conversa começa na Bíblia e termina em emoções, escolhas e rotina.</p></article>
+    <article class="f"><div class="top"><span class="ico" aria-hidden="true">📈</span><span class="tag bA">A</span></div><h3>Grandes momentos e pequenos hábitos</h3><p>Conferências e turnês criam experiências marcantes. Clubes de assinatura com caixa mensal, aulas e comunidade ajudam a manter a constância no dia a dia.</p><p class="read">A identidade se fortalece na alternância entre os dois.</p></article>
+    <article class="f"><div class="top"><span class="ico" aria-hidden="true">🏃</span><span class="tag bA">A</span><span class="tag bD">D</span></div><h3>Corrida já faz parte; futebol, ainda não sabemos</h3><p>Uma corrida de trilha organizada por um dos movimentos fala em superação, propósito e transformação. O futebol nas redes é enorme no Brasil, mas não há dados sobre esse público.</p><p class="read">Atividades comuns podem ganhar sentido espiritual.</p></article>
+    <article class="f"><div class="top"><span class="ico" aria-hidden="true">🎧</span><span class="tag bC">C/D</span></div><h3>Gospel e música popular convivem</h3><p>Funk, sertanejo, forró e gospel dividem espaço no YouTube brasileiro. Jovens de 18 a 24 anos responderam por 64% do crescimento da MPB dos anos 60 no Spotify entre 2022 e 2024.</p><p class="read">Esses jovens não vivem numa bolha gospel, nem ouvem exatamente o mesmo que o resto da geração.</p></article>
+  </div>
+</section>
+
+<section class="sec" id="numeros" aria-labelledby="h-num">
+  <span class="eyebrow">Infográfico · Grau C</span>
+  <h2 id="h-num">O que dizem os números nacionais</h2>
+  <p class="lede">ISER/Quaest 2026: 15 mil entrevistas presenciais, 16+ anos, 412 municípios, campo de 14/jan a 10/fev de 2026.</p>
+  <div class="bars" role="img" aria-label="Percentuais da pesquisa ISER/Quaest 2026">
+    <div class="bar"><span class="lbl">Consomem música gospel</span><div class="track"><div class="fill" style="width:67%"></div></div><span class="v">67%</span></div>
+    <div class="bar"><span class="lbl">Usam WhatsApp para grupos religiosos</span><div class="track"><div class="fill" style="width:66%"></div></div><span class="v">66%</span></div>
+    <div class="bar"><span class="lbl">Consomem filmes/séries religiosos</span><div class="track"><div class="fill" style="width:59%"></div></div><span class="v">59%</span></div>
+    <div class="bar"><span class="lbl">Sem religião que ouvem gospel</span><div class="track"><div class="fill" style="width:55%"></div></div><span class="v">55%</span></div>
+    <div class="bar"><span class="lbl">Assistem novelas bíblicas</span><div class="track"><div class="fill" style="width:45%"></div></div><span class="v">45%</span></div>
+    <div class="bar"><span class="lbl">Evangélicos entre 16–34 anos</span><div class="track"><div class="fill" style="width:33%"></div></div><span class="v">33%</span></div>
+    <p class="note">Atenção: 55% dos sem religião ouvem gospel. Ouvir gospel não identifica um evangélico.</p>
+  </div>
+  <div class="two">
+    <div class="bars">
+      <h3>Alcance publicitário no Brasil (fim de 2025)</h3>
+      <div class="bar"><span class="lbl">YouTube</span><div class="track"><div class="fill" style="width:100%"></div></div><span class="v">150M</span></div>
+      <div class="bar"><span class="lbl">Instagram</span><div class="track"><div class="fill" style="width:98%"></div></div><span class="v">147M</span></div>
+      <div class="bar"><span class="lbl">TikTok (adultos)</span><div class="track"><div class="fill" style="width:87.3%"></div></div><span class="v">131M</span></div>
+      <p class="note">DataReportal. Escala, não usuários ativos nem afinidade.</p>
+    </div>
+    <div class="bars">
+      <div class="big"><b>96%</b><span>dos fãs brasileiros online (14–44) usam YouTube ao menos mensalmente para conteúdo sobre o que amam.</span></div>
+      <div class="big"><b>1 bi+</b><span>de views em conteúdo das Olimpíadas no YouTube Brasil em 2024; lives da CazéTV chegaram a ~15 mi.</span></div>
+      <p class="note">Google/SmithGeiger e YouTube Trends 2024 · Grau C.</p>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="mapa" aria-labelledby="h-mapa">
+  <span class="eyebrow">Mapa do ecossistema</span>
+  <h2 id="h-mapa">Camadas interligadas, do centro para a borda</h2>
+  <div class="layers">
+    <div class="layer core"><b>Centro espiritual</b><span>Worship, oração, Bíblia, devocionais, "presença"</span><span class="fn">Linguagem comum e identidade</span></div>
+    <div class="layer core"><b>Comunidade local</b><span>Pequenos grupos, hangouts, culto jovem, refeições</span><span class="fn">Amizade, rotina, pertença</span></div>
+    <div class="layer"><b>Comunidade digital privada</b><span>WhatsApp, comunidades de membros</span><span class="fn">Continuidade entre encontros</span></div>
+    <div class="layer"><b>Vídeo público</b><span>YouTube, lives, Shorts, Reels, TikTok</span><span class="fn">Descoberta e circulação</span></div>
+    <div class="layer"><b>Long-form e formação</b><span>Podcasts, cursos, livros, escola ministerial</span><span class="fn">Interpretar a vida</span></div>
+    <div class="layer"><b>Live culture</b><span>Fornalha, Encounterfest, Legacy, Vira Brasil</span><span class="fn">Memória coletiva</span></div>
+    <div class="layer"><b>Universidade</b><span>Pockets, Campus on Fire, mentoria</span><span class="fn">Fé + vocação na vida adulta</span></div>
+    <div class="layer"><b>Carreira e liderança</b><span>Leadership Academy, Faculdade Dunamis</span><span class="fn">Trabalho como chamado</span></div>
+    <div class="layer"><b>Lifestyle físico</b><span>Trail running, merch, editorial</span><span class="fn">Identidade além do culto</span></div>
+    <div class="layer edge"><b>Mainstream adjacente</b><span>Futebol digital, games, Shorts, música secular</span><span class="fn">Cultura comum · a validar</span></div>
+  </div>
+</section>
+
+<section class="sec" id="narrativa" aria-labelledby="h-nar">
+  <span class="eyebrow">Narrativa e pertencimento</span>
+  <h2 id="h-nar">As palavras que se repetem entre redes</h2>
+  <div class="cloud" aria-label="Temas por força de evidência">
+    <span class="w s1">Propósito</span><span class="w s2">Presença</span><span class="w s1">Transformação</span><span class="w s2">Comunidade</span><span class="w s1">Chamado</span><span class="w s2">Liderança</span><span class="w s3">Disciplina</span><span class="w s3">Serviço</span><span class="w s3">Identidade</span><span class="w s3">Legado</span><span class="w s4">Prosperidade</span><span class="w s4">Família</span><span class="w s4">Excelência</span>
+  </div>
+  <p class="note">Laranja e roxo: forte evidência (A/B). Riscado: sem base suficiente como eixo central.</p>
+  <blockquote class="quote">Ser transformado para viver com propósito e transformar o ambiente ao redor, em comunidade, cultivando presença de Deus e assumindo liderança e serviço.</blockquote>
+  <p class="note">Síntese D de várias fontes A/B. Linguagem institucional ainda não é linguagem vivida pelos jovens.</p>
+</section>
+
+<section class="sec" id="assista" aria-labelledby="h-vid">
+  <span class="eyebrow">Assista · abre no YouTube</span>
+  <h2 id="h-vid">Uma playlist para sentir o ecossistema</h2>
+  <div class="vids">
+    <a class="vid" href="https://www.youtube.com/watch?v=0UxkZrOgpdo" target="_blank" rel="noopener"><div class="thumb t1"><span class="kind">Live culture</span><span class="play">▶</span></div><div class="meta"><b>Fornalha Tour Brasil 2025 · São Paulo (ao vivo)</b><span>Dunamis Music · a última noite da turnê</span></div></a>
+    <a class="vid" href="https://www.youtube.com/watch?v=ObkbZpzFQIA" target="_blank" rel="noopener"><div class="thumb t1"><span class="kind">Worship</span><span class="play">▶</span></div><div class="meta"><b>Estações · Live from The Send Brasil 2026</b><span>Dunamis Music · Arena de Pernambuco</span></div></a>
+    <a class="vid" href="https://www.youtube.com/watch?v=Y3aPgzpdZP8" target="_blank" rel="noopener"><div class="thumb t1"><span class="kind">Álbum ao vivo</span><span class="play">▶</span></div><div class="meta"><b>Fornalha Tour Brasil · DVD completo</b><span>Gravado em SP em ago/2025, lançado jan/2026</span></div></a>
+    <a class="vid" href="https://www.youtube.com/watch?v=WdqmEUOBXfA" target="_blank" rel="noopener"><div class="thumb t2"><span class="kind">Podcast</span><span class="play">▶</span></div><div class="meta"><b>Teo Hayashi no JesusCopy #253</b><span>Dunamis encontra JesusCopy</span></div></a>
+    <a class="vid" href="https://www.youtube.com/watch?v=easYXvazHxA" target="_blank" rel="noopener"><div class="thumb t2"><span class="kind">Podcast</span><span class="play">▶</span></div><div class="meta"><b>Primo Pobre no JesusCopy #212</b><span>Finanças à luz da Bíblia</span></div></a>
+    <a class="vid" href="https://www.youtube.com/watch?v=nFxhobam9lY" target="_blank" rel="noopener"><div class="thumb t3"><span class="kind">Ponte mainstream</span><span class="play">▶</span></div><div class="meta"><b>Deive Leonardo no Jota Jota Podcast #187</b><span>Fé, propósito e disciplina espiritual</span></div></a>
+    <a class="vid" href="https://www.youtube.com/watch?v=I3NqZBjZljs" target="_blank" rel="noopener"><div class="thumb t3"><span class="kind">Ponte mainstream</span><span class="play">▶</span></div><div class="meta"><b>Deive Leonardo no Podcats</b><span>Com Camila Loures e Lucas Guimarães</span></div></a>
+    <a class="vid" href="https://www.youtube.com/watch?v=ozBlvwVizXI" target="_blank" rel="noopener"><div class="thumb t4"><span class="kind">Gospel de massa</span><span class="play">▶</span></div><div class="meta"><b>Enche-me · Isaías Saad + Gabriela Rocha</b><span>Clipe oficial</span></div></a>
+  </div>
+  <p class="note">Seleção ilustrativa encontrada para esta página; o estudo original não lista vídeos específicos.</p>
+</section>
+
+<section class="sec" id="pessoas" aria-labelledby="h-pes">
+  <span class="eyebrow">Quem é quem · não é ranking</span>
+  <h2 id="h-pes">Nomes e propriedades para investigar</h2>
+  <p class="lede">Proximidade comprovada ao ecossistema separada de popularidade mainstream. Nenhuma ordem implica influência.</p>
+  <div class="filters" role="group" aria-label="Filtrar">
+    <button type="button" id="f-all" data-f="all" aria-pressed="true">Todos</button>
+    <button type="button" id="f-nuc" data-f="nucleo" aria-pressed="false">Núcleo religioso</button>
+    <button type="button" id="f-mai" data-f="main" aria-pressed="false">Mainstream a testar</button>
+  </div>
+  <div class="people" id="people"></div>
+</section>
+
+
+
+<section class="sec" aria-labelledby="h-rec">
+  <span class="eyebrow">Recursos</span>
+  <h2 id="h-rec">Para continuar explorando</h2>
+  <div class="links">
+    <a href="https://www.youtube.com/@DunamisMovement" target="_blank" rel="noopener">Dunamis Music no YouTube</a>
+    <a href="https://dunamismovement.com/fornalhatour2026/" target="_blank" rel="noopener">Fornalha Tour 2026</a>
+    <a href="https://jesuscopy.com" target="_blank" rel="noopener">JesusCopy</a>
+    <a href="https://www.youtube.com/@deiveleonardo" target="_blank" rel="noopener">Deive Leonardo</a>
+    <a href="https://www.youtube.com/@CazeTV" target="_blank" rel="noopener">CazéTV</a>
+    <a href="https://datareportal.com/reports/digital-2026-brazil" target="_blank" rel="noopener">DataReportal Brasil</a>
+  </div>
+</section>
+
+<footer>Síntese visual de desk research sobre o ecossistema cultural de jovens evangélicos urbanos (18–29) no Brasil. Fontes: ISER/Quaest 2026, IBGE Censo 2022, DataReportal 2026, Google/SmithGeiger e YouTube Trends 2024, Spotify/Folha 2025 e páginas institucionais de Dunamis, Zion, Hillsong SP e Lagoinha. Identidade religiosa não foi usada para inferir posição política.</footer>
+</div>
+
+<script>
+const P=[
+ ["Dunamis Movement","Hub: música, universidade, formação, ação social","A/B","nucleo"],
+ ["Teo Hayashi","Fundador e liderança do Dunamis","B","nucleo"],
+ ["Dunamis Music","Música gravada, devocional 6AM e live","A/B","nucleo"],
+ ["Zoe Lilly","Circuito Fornalha","B","nucleo"],
+ ["Laura Souguellis","Worship contemporâneo, Fornalha","B","nucleo"],
+ ["Gabriel Borges","Circuito Dunamis/Fornalha","B","nucleo"],
+ ["Gabriel Namorato","Fornalha e Pockets na USP","A/B","nucleo"],
+ ["Nick Moretti","Liderança e campus","A/B","nucleo"],
+ ["Gabi Sampaio","Worship e eventos","B","nucleo"],
+ ["Isaque Bessa","Fornalha e Pockets","A/B","nucleo"],
+ ["Hillsong SP · Powerhouse","Comunidade jovem adulta 18–30","A","nucleo"],
+ ["Zion Church","Discípulos, líderes, transformação","A/B","nucleo"],
+ ["Lagoinha Legacy","Conferências e linguagem geracional","A","nucleo"],
+ ["Clayton Vojevodovas","Liderança global Legacy","B","nucleo"],
+ ["Douglas e Val Gonçalves","JesusCopy: podcast, livros, discipulado","B","nucleo"],
+ ["Thamires Garcia","Autora no universo editorial","B","nucleo"],
+ ["Alessandro Vilas Boas","Worship e editorial","B","nucleo"],
+ ["Deive Leonardo","Referência digital, propósito e emoções","B/C","nucleo"],
+ ["Gabriela Rocha","Ponte com gospel de massa","B/C","nucleo"],
+ ["Isaías Saad","Worship com overlap entre redes","B","nucleo"],
+ ["Pockets / Campus on Fire","Melhor janela para 18–24","A","nucleo"],
+ ["Dunamis Club","Box mensal, aulas, comunidade","B","nucleo"],
+ ["Dunamis Farm Trail Run","Primeira ponte com fitness","A/B","nucleo"],
+ ["CazéTV / Casimiro","Futebol creator-first","C","main"],
+ ["Emilly Vick / Dos Rosa","Shorts e entretenimento jovem","C","main"],
+ ["Enaldinho","Creator mainstream","C","main"],
+ ["Natan Por Aí","Creator culture jovem","C","main"],
+ ["Podpah","Videopodcast de conversa","C/D","main"],
+ ["Joel Jota","Liderança, disciplina, carreira","C/D","main"],
+ ["Ana Castela","Sertanejo contemporâneo","C/D","main"],
+ ["Funk e trap BR","Forte nos Shorts","C/D","main"],
+ ["Nova MPB","Catálogo redescoberto via TikTok","C/D","main"]
+];
+const col={A:"var(--gA)",B:"var(--gB)",C:"var(--gC)",D:"var(--gD)"};
+const avc=["#E0570B","#5B3FD1","#1E8E5A","#B23A6B","#2F6FD6","#8A6D12"];
+const root=document.getElementById("people");
+function ini(n){return n.replace(/[^\p{L} ]/gu,"").split(" ").filter(Boolean).slice(0,2).map(w=>w[0]).join("").toUpperCase()}
+P.forEach(([n,r,g,k],i)=>{
+  const d=document.createElement("div");d.className="p";d.dataset.k=k;
+  d.innerHTML=`<div class="av" style="background:${avc[i%avc.length]}">${ini(n)}</div><div class="info"><div class="nm"></div><div class="rl"></div></div><span class="tag" style="background:${col[g[0]]}">${g}</span>`;
+  d.querySelector(".nm").textContent=n;d.querySelector(".rl").textContent=r;root.appendChild(d);
+});
+document.querySelectorAll(".filters button").forEach(b=>b.addEventListener("click",()=>{
+  document.querySelectorAll(".filters button").forEach(x=>x.setAttribute("aria-pressed",x===b));
+  root.querySelectorAll(".p").forEach(p=>p.hidden=!(b.dataset.f==="all"||p.dataset.k===b.dataset.f));
+}));
+</script>
+</body></html>
